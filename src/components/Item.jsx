@@ -1,20 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../assets/styles/components/Item.scss';
-import playIcon from '../assets/static/play-icon.png';
-import plusIcon from '../assets/static/plus-icon.png';
 
-const Item = ({ launch_date_local, links, mission_name, launch_success }) => (
-  <div className='carousel-item'>
-    <img className='carousel-item__img' src='https://live.staticflickr.com/65535/50065947228_804efe6117_o.jpg' alt='' />
-    <div className='carousel-item__details'>
-      <div>
-        <img className='carousel-item__details--img' src={playIcon} alt='Play Icon' />
-        <img className='carousel-item__details--img' src={plusIcon} alt='Plus Icon' />
+const Item = ({ launch_date_unix, links, mission_name, launch_success, id }) => {
+  const [wikipedia, setWikipedia] = useState(links.wikipedia);
+  const [image, setImage] = useState('');
+  const [localTime, setLocalTime] = useState(new Date(launch_date_unix * 1000));
+  const launchStatus = (launch_success) ? 'success' : 'fail';
+
+  useEffect(() => {
+    const max = links.flickr_images.length;
+    const index = Math.floor(Math.random() * (max - 0) + 0);
+    console.log(launchStatus);
+    console.log(launch_date_unix);
+    console.log(launch_success);
+    console.log(id);
+    setImage(links.flickr_images[index]);
+  }, []);
+
+  return (
+    <div className='carousel-item'>
+      <img className='carousel-item__img' src={image} alt='' />
+      <div className='carousel-item__details'>
+        <p className={`carousel-item__details--title ${launchStatus}`}> {mission_name}</p>
+        <p className='carousel-item__details--subtitle'>{localTime.toLocaleString()}</p>
+        <p className='carousel-item__details--title'>{launch_success ? 'success' : 'fail'}</p>
+
+        {wikipedia != null &&
+          <a href={wikipedia} target='_blank' rel='noopener noreferrer' className='carousel-item__details--btn'>Wikipedia</a>
+        }
+
       </div>
-      <p className='carousel-item__details--title'>{mission_name}</p>
-      <p className='carousel-item__details--subtitle'>{launch_date_local}</p>
     </div>
-  </div>
-);
+  );
+};
 
 export default Item;

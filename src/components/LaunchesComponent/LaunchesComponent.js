@@ -1,25 +1,18 @@
-import React, { useState } from 'react';
-import SpaceXService from '../../hooks/SpaceXService';
+import React, { useState, useEffect } from 'react';
 import Item from '../Item';
 
-const API = 'http://localhost:3000/data';
+const LaunchesComponent = (launchList) => {
 
-const LaunchesComponent = () => {
+  const [launchesA, setLaunchesA] = useState([]);
 
-  const [launches, setLaunches] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  SpaceXService.getLaunchList(API)
-    .then((launchesPast) => {
-      setLaunches(launchesPast);
-      setLoading(false);
-    })
-    .catch((error) => console.error(error));
+  useEffect(() => {
+    setLaunchesA(launchList);
+  },[]);
 
   return (
 
-    <div>
-      {loading ? <p> is loading </p> : launches.map((item) => <Item key={item.id} {...item} />) }
+    <div className='carousel__container'>
+      {launchesA.map((item) => <Item key={item.id} {...item} />) }
     </div>
   );
 
