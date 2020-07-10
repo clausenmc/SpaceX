@@ -23,12 +23,9 @@ const Item = ({ launch_date_unix, links, mission_name, launch_success, id }) => 
       <div className='carousel-item__details'>
         <p className={`carousel-item__details--title ${launchStatus}`}> {mission_name}</p>
         <p className='carousel-item__details--subtitle'>{localTime.toLocaleString()}</p>
-        <p className='carousel-item__details--title'>{launch_success ? 'success' : 'fail'}</p>
-
         {wikipedia != null &&
-          <a href={wikipedia} target='_blank' rel='noopener noreferrer' className='carousel-item__details--btn'>Wikipedia</a>
+          <a href={wikipedia} target='_blank' className='carousel-item__details--btn'>Wikipedia</a>
         }
-
       </div>
     </div>
   );

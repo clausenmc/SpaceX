@@ -1,0 +1,76 @@
+@import '../Vars.scss';
+@import '../App.scss';
+
+.company {
+    color: $white;
+    width: 90%
+}
+
+.company__name {
+    text-transform: uppercase;
+}
+.company__details {
+    display: flex;
+    @media (max-width: $breakpoint-phone) {
+        flex-wrap: wrap;
+    }
+}
+.company__details--left {
+    width: 65%;
+    @media (max-width: $breakpoint-phone) {
+        width: 100%;
+    }
+}
+.company__details--left--summary {
+    font-size: 1.2rem;
+    padding-top: 20px;
+    border-top: 1px solid white;
+}
+.company__details--left--founder {
+    margin-top: 35px;
+    color: $white;
+    a{
+        @include link();
+    }
+}
+
+.company__details--right {
+    width: 35%;
+    margin-top: 20px;
+    @media (max-width: $breakpoint-phone) {
+        width: 100%;
+        margin-top: 30px;
+    }
+}
+.company__details--links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+    @media (max-width: $breakpoint-phone) {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+.company__details--links {
+    a {
+        @include link();
+        text-transform: uppercase;
+    }
+}
+
+.slide-top {
+	animation: slide-top 1.5s cubic-bezier(0.07, 1.31, 1, 1) both;
+}
+
+@keyframes slide-top {
+    0% {
+        transform: translateY(-200px);
+        opacity: 0.2;
+    }
+    100% {
+        transform: translateY(0);
+    }
+  }
