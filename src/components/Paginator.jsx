@@ -2,86 +2,77 @@ import React, { useState, useEffect } from 'react';
 import SpaceXService from '../hooks/SpaceXService';
 import LaunchesComponent from './LaunchesComponent/LaunchesComponent';
 
-const API = 'http://localhost:3000/data';
-
 const Paginator = () => {
-  const [launches, setLaunches] = useState([]);
-  /*useEffect(() => {
-    SpaceXService.getLaunchList(API)
-      .then((launchesPast) => {
-        setLaunches(launchesPast);
-      })
-      .catch((error) => console.error(error));
-  }, []);
-*/
-  //const [itemPerPage, setItemPerPage] = useState(12);
+  const [launchList, setLaunchList] = useState([]);
+  const [itemPerPage, setItemPerPage] = useState(12);
+  const [itemTotal, setItemTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  let [currentPage, setCurrentPage] = useState(1);
+  const [arrayEnd, setArrayEnd] = useState(0);
+  const [arrayInit, setArrayInit] = useState(0);
+  const [subArray, setSubArray] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  //const [itemTotal, setItemTotal] = useState(0);
-  /*useEffect(() => {
-    setItemTotal(launches.length);
-  }, [launches]);
-*/
-  //const [totalPages, setTotalPages] = useState(0);
-  /*useEffect(() => {
-      console.log(itemTotal);
-      setTotalPages(Math.floor(itemTotal / itemPerPage));
-    }, [itemTotal]);
-*/
- // const [currentPage, setCurrentPage] = useState(1);
-
-  //const [arrayEnd, setArrayEnd] = useState(0);
-  /*useEffect(() => {
-    console.log(totalPages);
-    setArrayEnd(currentPage * itemPerPage);
-  }, [totalPages]);
-*/
- // const [arrayInit, setArrayInit] = useState(0);
-  /*useEffect(() => {
-    console.log('arrayEnd'+ arrayEnd);
-    setArrayInit(arrayEnd - itemPerPage);
-   }, [arrayEnd]);
-*/
- // const [subArray, setSubArray] = useState([]);
-  /*useEffect(() => {
-    console.log(`arrayinit ${arrayInit}`);
-    setSubArray(launches.slice(arrayInit, arrayEnd));
-    console.log(subArray);
-  }, [arrayInit]);
-*/
-//  const [loading, setLoading] = useState(true);
-  /*useEffect(() => {
-    console.log(subArray);
-
-    setLoading(false);
-  }, [subArray]);
-*/
   useEffect(() => {
-    SpaceXService.getLaunchList(API)
+    SpaceXService.getLaunchList()
       .then((launchesPast) => {
-        //launches = launchesPast;
-        setLaunches(launchesPast);
-       /* setItemTotal(launches.length);
-        //itemTotal = launches.length;
-        console.log(`launches${JSON.stringify(launches)}`);
-        //console.log( "setItemTotal" + itemTotal);
+        const cp = 1;
+        setCurrentPage(1);
+        setLaunchList(launchesPast);
+        const total = launchesPast.length;
+        setItemTotal(total);
+        const piso = Math.ceil(launchesPast.length / itemPerPage);
+        setTotalPages(piso);
+        const fin = currentPage * itemPerPage;
+        setArrayEnd(fin);
+        const inicio = fin - itemPerPage;
+        setArrayInit(inicio);
+        setSubArray(launchesPast.slice(inicio, fin));
+        setLoading(false);
 
-        setTotalPages(Math.floor(itemTotal / itemPerPage));
-        setArrayEnd(currentPage * itemPerPage);
-        setArrayInit(arrayEnd - itemPerPage);
-        setSubArray(launches.slice(arrayInit, arrayEnd));
-        console.log('subArray '+ JSON.stringify(subArray));*/
-       // setLoading(false);
-      })
-      .catch((error) => console.error(error));
+      });
 
-  },[]);
+  }, []);
+
+  const update = () => {
+    console.log(currentPage);
+    setLoading(true);
+    sleep(100).then(() => {
+      const fin = currentPage * itemPerPage;
+      setArrayEnd(fin);
+      const inicio = fin - itemPerPage;
+      setArrayInit(inicio);
+      setSubArray(launchList.slice(inicio, fin));
+      setLoading(false);
+    });
+
+  } ;
+
+  const sleep = (milliseconds) => {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+  };
+
+  const getBTS = () => {
+    const btns = [] ;
+    for (let i = 0 ; i < totalPages; i++) {
+      const index = i + 1;
+    btns.push(<button className='btn-pages' key={index} onClick={() => { currentPage = index;update(); }}>{`Page ${index}`}</button>);
+    }
+    return <div className='btn-container'>{btns}</div>;
+
+  };
 
   return (
     <div>
-       <LaunchesComponent {...launches} />
+      {loading ? <p className='loading'>Loading...</p> : (
+        <div className='paginator'>
+          <h3 className='title'>Latest Launches</h3>
+          {getBTS()}
+          <LaunchesComponent launches={subArray} isLoading={loading} />
+        </div>
+      )}
     </div>
   );
-
 };
 
 export default Paginator;

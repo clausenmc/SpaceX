@@ -1,3 +1,24 @@
+@import '../Vars.scss';
+@import '../App.scss';
+
+.navbar {
+  display: flex;
+  margin-top: 10px;
+}
+
+.menu{
+  ul {
+    display: flex;
+    list-style: none;
+    text-transform: uppercase;
+    color: white;
+    li {
+      padding: 0 15px;
+      @include link();
+    }
+  }
+}
+
 .carousel__container {
   justify-content: center;
   display: flex;
@@ -11,4 +32,11 @@
   -webkit-transform: scale(1.2);
   transform: scale(1.2);
   opacity: 1;
+}
+
+.title {
+  color: white;
+  font-size: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
 }

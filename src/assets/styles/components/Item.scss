@@ -1,4 +1,5 @@
 @import '../Vars.scss';
+@import '../App.scss';
 
 .carousel-item {
   border-radius: 5px;
@@ -65,15 +66,5 @@
 
 
 a.carousel-item__details--btn {
-  color: white;
-  padding: 5px 15px;
-  margin-top: 5px;
-  border: 2px solid white;
-  text-decoration: none;
-  cursor: pointer;
-  &:hover {
-    transition: color .5s cubic-bezier(0.25, 1, 0, 0), background-color .5s cubic-bezier(0.4, 0, 0.65, 0.82);
-    background: white;
-    color: black;
-  }
+  @include btn();
 }

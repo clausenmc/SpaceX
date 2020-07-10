@@ -9,3 +9,61 @@ body {
 * {
     box-sizing: border-box;
 }
+
+button {
+    background: none;
+    font-family: inherit;
+}
+
+@mixin link {
+    cursor: pointer;
+    color: $lilac;
+    padding: 0 15px;
+    margin-top: 10px;
+    text-decoration: none;
+    &:hover {
+        color: $light-gray;
+    }
+}
+
+@mixin btn {
+  color: white;
+  padding: 5px 15px;
+  margin: 5px 0;
+  border: 2px solid white;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    transition: color .5s cubic-bezier(0.25, 1, 0, 0), background-color .5s cubic-bezier(0.4, 0, 0.65, 0.82);
+    background: white;
+    color: black;
+  }
+}
+
+img.header__img {
+    width: 250px;
+}
+.loading {
+    color: $white;
+}
+
+.paginator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+}
+.btn-container {
+    margin-bottom: 15px;
+}
+
+.btn-pages {
+    @include btn();
+    margin: 0 5px;
+}
+
+.component {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}

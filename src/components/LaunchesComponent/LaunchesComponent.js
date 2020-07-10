@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Item from '../Item';
+import SpaceXService from '../../hooks/SpaceXService';
 
-const LaunchesComponent = (launchList) => {
+const LaunchesComponent = (props) => {
 
-  const [launchesA, setLaunchesA] = useState([]);
-
-  useEffect(() => {
-    setLaunchesA(launchList);
-  },[]);
+  const [launches, setLaunches] = useState(props.launches);
+  const [isLoading, setIsLoading] = useState(props.isLoading);
 
   return (
-
-    <div className='carousel__container'>
-      {launchesA.map((item) => <Item key={item.id} {...item} />) }
+    <div className='component'>
+      {isLoading ?
+        <p className='loading'>Loading...</p> :
+        launches.map((item) => <Item key={item.id} {...item} />) }
     </div>
   );
 
